@@ -1,0 +1,2 @@
+D:\Learning\大学\毕设\Assessment_System\Assessment_System.Tests\obj\Debug\Assessment_System.Tests.csprojAssemblyReference.cache
+D:\Learning\大学\毕设\Assessment_System\Assessment_System.Tests\obj\Debug\Assessment_System.Tests.csproj.CoreCompileInputs.cache
