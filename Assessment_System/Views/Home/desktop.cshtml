@@ -1,0 +1,275 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/index_v3.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:18:46 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>我的主页</title>
+    <link rel="shortcut icon" href="~/favicon.ico">
+    <link href="~/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="~/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <!-- Morris -->
+    <link href="~/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
+    <!-- Gritter -->
+    <link href="~/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+    <link href="~/css/animate.min.css" rel="stylesheet">
+    <link href="~/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    @*加载中*@
+    <link href="~/js/plugins/NZ-Plugin/Css/NZ-Loading.min.css" rel="stylesheet" />
+    <link href="~/js/plugins/syntaxhighlighter_3.0.83/styles/shCoreRDark.css" rel="stylesheet" />
+    <link href="~/css/plugins/NZ-Plugin/displaystyle.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="wrapper wrapper-content" style="padding:0px" id="home">
+        <div class="row">
+            <div class="col-sm-9">
+                <div class="wrapper wrapper-content animated fadeInUp">
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            @*<div class="m-b-md">
+                                    <h2>销售动态</h2>
+                                </div>*@
+                            <div class="feed-element">
+                                <a class="pull-left" style="font-size:24px">
+                                    销售动态
+                                </a>
+                                <div class="media-body pull-right" style="color:#23527c">
+                                    <strong style="font-size:14px">本年累计</strong>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row" style="margin-left:75px">
+                        <div class="col-sm-6">
+                            <div class="feed-element">
+                                <a class="pull-left">
+                                    <img alt="image" class="img-circle" src="~/img/money1.png">
+                                </a>
+                                <div class="media-body">
+                                    <strong style="font-size:14px">累计合同金额</strong>
+                                    <br>
+                                    <small class="text-muted" style="font-size:24px;color:#299eed;">{{ContractAmmount}}元</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" id="cluster_info">
+                            <div class="feed-element">
+                                <a class="pull-left">
+                                    <img alt="image" class="img-circle" src="~/img/money2.png">
+                                </a>
+                                <div class="media-body ">
+                                    <strong style="font-size:14px">累计回款金额</strong>
+                                    <br>
+                                    <small class="text-muted" style="font-size:24px;color:#299eed">{{ReceivableAmmount}}元</small>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row" style="margin-left:75px">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered table-striped">
+                                <tbody>
+                                    <tr>
+                                        <th style="text-align:center">投标保证金</th>
+                                        <th style="text-align:center">履约保证金</th>
+                                        <th style="text-align:center">待回款金额</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="text-align:center;">
+                                            <div class="media-body">
+                                                <strong style="font-size:24px;color:#299eed">0元</strong>
+                                                <br>
+                                                <small style="font-size:14px">未收回金额</small>
+                                                <br>
+                                                <strong style="font-size:24px;color:#299eed">0笔</strong>
+                                                <br>
+                                                <small style="font-size:14px">最近到期数量</small>
+                                            </div>
+                                        </th>
+                                        <td style="text-align:center;">
+                                            <div class="media-body">
+                                                <strong style="font-size:24px;color:#299eed">0元</strong>
+                                                <br>
+                                                <small style="font-size:14px">未收回金额</small>
+                                                <br>
+                                                <strong style="font-size:24px;color:#299eed">0笔</strong>
+                                                <br>
+                                                <small style="font-size:14px">最近到期数量</small>
+                                            </div>
+                                        </td>
+                                        <td style="text-align:center;">
+                                            <div class="media-body">
+                                                <strong style="font-size:24px;color:#299eed">0元</strong>
+                                                <br>
+                                                <small style="font-size:14px">上线已确认待回款金额</small>
+                                                <br>
+                                                <strong style="font-size:24px;color:#299eed">0笔</strong>
+                                                <br>
+                                                <small style="font-size:14px">已开票待回款金额</small>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                <div class="feed-activity-list">
+                    <div class="feed-element">
+
+                    </div>
+
+                </div>
+                <div class="wrapper wrapper-content animated fadeInUp">
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="feed-element">
+                                <a class="pull-left" style="font-size:24px">
+                                    商机统计
+                                </a>
+                                <div class="media-body" style="text-align:right;color:#23527c">
+                                    <strong style="font-size:14px">本年累计</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-left:75px">
+                        <div class="col-sm-6">
+                            <div class="feed-element">
+                                <a class="pull-left">
+                                    <img alt="image" class="img-circle" src="~/img/dollar1.png">
+                                </a>
+                                <div class="media-body">
+                                    <strong style="font-size:14px">商机总数</strong>
+                                    <br>
+                                    <small class="text-muted" style="font-size:24px;color:#299eed">{{ChanceTotal}}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="feed-element">
+                                <a class="pull-left">
+                                    <img alt="image" class="img-circle" src="~/img/dollar5.png">
+                                </a>
+                                <div class="media-body">
+                                    <strong style="font-size:14px">在线商机</strong>
+                                    <br>
+                                    <small class="text-muted" style="font-size:24px;color:#299eed">{{ChanceOnline}}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="feed-element">
+                                <a class="pull-left">
+                                    <img alt="image" class="img-circle" src="~/img/success2.png">
+                                </a>
+                                <div class="media-body">
+                                    <strong style="font-size:14px">已成单商机</strong>
+                                    <br>
+                                    <small class="text-muted" style="font-size:24px;color:#299eed">{{ChanceScuess}}</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="feed-element">
+                                <a class="pull-left">
+                                    <img alt="image" class="img-circle" src="~/img/fail.png">
+                                </a>
+                                <div class="media-body">
+                                    <strong style="font-size:14px">终止商机</strong>
+                                    <br>
+                                    <small class="text-muted" style="font-size:24px;color:#299eed">{{ChanceFail}}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-sm-3">
+                <div class="wrapper wrapper-content project-manager">
+                    <div class="col-sm-12">
+                        <div class="feed-element">
+                            <a class="pull-left" style="font-size:14px;">
+                                我的客户统计
+                            </a>
+                            @*<div class="media-body" style="text-align:right;color:#23527c">
+                                    <strong style="font-size:10px">更多详情</strong>
+                                </div>*@
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="feed-element">
+                            @*<a class="pull-left">
+                                    <img alt="image" class="img-circle" src="~/img/customer.png">
+                                </a>*@
+                            <div class="media-body" style="text-align:center">
+                                <strong style="font-size:14px">客户总计</strong>
+                                <br>
+                                <small class="text-muted" style="font-size:24px;color:#299eed">{{CustomerTotal}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="feed-element">
+                            <div class="media-body" style="text-align:center">
+                                <strong style="font-size:14px">今年已签订合同客户</strong>
+                                <br>
+                                <small class="text-muted" style="font-size:24px;color:#299eed">{{CustomerSigned}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="feed-activity-list">
+                            @*<div class="feed-element">
+                                </div>*@
+                            <div class="feed-element" v-for="(item,i) in contractlist">
+                                <div class="media-body " style="text-align:center">
+                                    <strong>{{item.name}}</strong>
+                                    <br>
+                                    <small class="text-muted" style="color:#299eed">销售额¥{{item.ammount}}</small>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/js/jquery.min.js?v=2.1.4"></script>
+    <script src="~/js/vue/vue.js"></script>
+
+
+    <script src="~/js/cookie.js"></script>
+
+
+    @*加载中*@
+    <script src="~/js/plugins/NZ-Plugin/Js/NZ-Loading.min.js"></script>
+    <script src="~/js/plugins/syntaxhighlighter_3.0.83/shCore.js"></script>
+    <script src="~/js/plugins/syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+    <script src="~/js/imbusiniss/home.js"></script>
+
+
+</body>
+<!-- Mirrored from www.zi-han.net/theme/hplus/index_v3.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:18:49 GMT -->
+</html>
+
