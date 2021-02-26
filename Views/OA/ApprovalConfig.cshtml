@@ -1,0 +1,124 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>审批配置</title>
+    <link rel="shortcut icon" href="~/favicon.ico">
+    <link href="~/css/oa/ApprovalConfig.css" rel="stylesheet" />
+    <link href="~/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="~/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="~/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="~/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="~/css/animate.min.css" rel="stylesheet">
+    <link href="~/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="~/js/plugins/layer/layui-v2.5.5/layui/css/layui.css" rel="stylesheet" />
+
+    <link href="~/js/plugins/NZ-Plugin/Css/NZ-Loading.min.css" rel="stylesheet" />
+    <link href="~/js/plugins/syntaxhighlighter_3.0.83/styles/shCoreRDark.css" rel="stylesheet" />
+    <link href="~/css/plugins/NZ-Plugin/displaystyle.css" rel="stylesheet" />
+    <link href="~/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/rangeslider/rangeslider.css">
+    <link href="~/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="~/css/imedstic.css" rel="stylesheet" />
+
+    <link href="~/css/select/select.css" rel="stylesheet" />
+    <link href="~/css/plugins/switchery/switchery.css" rel="stylesheet" />
+    <link href="~/css/chosen/chosen.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="demo float-e-margins">
+        <div class="ibox" id="tablebox">
+            <div class="ibox-title" style="padding:6px 15px 6px" id="ibox-title">
+                <div class="col-sm-2" style="width:20%">
+                    <input type="text" placeholder="姓名" class="form-control" name="keywords" id="keywords">
+                </div>
+
+                <div class="col-sm-2" style="text-align:left;width:10%">
+                    <button class='btn btn-w-m btn-success' onclick='refreshTable()' type='button'>查询</button>
+                </div>
+                <div class="fa-hover col-sm-3" style="text-align:right;padding-top:7px;width:13%">
+                    <a onclick="AddRank()" style="color:#1c84c6"><i class="fa fa-plus"></i> 新建审批等级</a>
+                </div>
+                <div class="fa-hover col-sm-3" style="text-align:right;padding-top:7px;width:13%">
+                    <a onclick="DelRank()" style="color:#1c84c6"><i class="fa fa-minus"></i> 删除审批等级</a>
+                </div>
+                <div class="col-sm-2" style="text-align:right;width:30%">
+                    <button class='btn btn-success' onclick='reset()' type='button'>重置</button>
+                </div>
+                <div class="col-sm-6" style="text-align:right;width:10%">
+                    <button class="btn btn-primary" onclick="AddApproval()" type='button'>保存配置</button>
+                </div>
+            </div>
+            <div class="hr-line-dashed" style="margin-top:55px"></div>
+            <div class="table-box" id="user">
+                <div>用户列表</div>
+                <table id="table1"></table>
+            </div>
+            <div class="table-box" id="rank1">
+                一级审批表
+                <table id="table2"></table>
+            </div>
+            <div class="table-box" id="rank2" v-show="showrank2">
+                二级审批表
+                <table id="table3"></table>
+            </div>
+            <div class="table-box" id="rank3" v-show="showrank3">
+                三级审批表
+                <table id="table4"></table>
+            </div>
+            <div class="table-box" id="rank4" v-show="showrank4">
+                四级审批表
+                <table id="table5"></table>
+            </div>
+            <div>
+                <table id="showtable"></table>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/jquery.min.js?v=2.1.4"></script>
+    <script src="~/js/vue/vue.js"></script>
+
+    <script src="~/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="~/js/content.min.js?v=1.0.0"></script>
+    <script src="~/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="~/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+    <script src="~/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script src="~/js/demo/bootstrap-table-demo.min.js"></script>
+    <script src="~/js/content.min.js?v=1.0.0"></script>
+    <script src="~/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="~/js/plugins/layer/layui-v2.5.5/layui/layui.js"></script>
+    <script src="~/js/cookie.js"></script>
+    @*加载中*@
+    <script src="~/js/plugins/NZ-Plugin/Js/NZ-Loading.min.js"></script>
+    <script src="~/js/plugins/syntaxhighlighter_3.0.83/shCore.js"></script>
+    <script src="~/js/plugins/syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+    @*進度條*@
+    <script src="~/js/rangeslider/rangeslider.min.js"></script>
+    @*select 搜索框*@
+    <script src="~/js/plugins/suggest/bootstrap-suggest.min.js"></script>
+    @*滑出界面*@
+    <script src="~/js/mSlider/mSlider.min.js"></script>
+    <script src="~/js/select/select2.js"></script>
+    <script src="~/js/plugins/switchery/switchery.js"></script>
+    <script src="~/js/chosen/chosen.jquery.js"></script>
+    <script src="~/js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="~/js/axios/axios.min.js"></script>
+    @*省市区三级联动*@
+    @*<script src="~/js/distpicker/jquery-1.11.0.min.js"></script>*@
+    <script src="~/js/distpicker/bootstrap.min.js"></script>
+    <script src="~/js/distpicker/distpicker.data.js"></script>
+    <script src="~/js/distpicker/distpicker.js"></script>
+    <script src="~/js/distpicker/main.js"></script>
+
+    <script src="~/js/oa/ApprovalConfig.js"></script>
+</body>
+</html>

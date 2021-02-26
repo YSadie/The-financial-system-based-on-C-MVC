@@ -1,0 +1,416 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>费用报销</title>
+    <link rel="shortcut icon" href="~/favicon.ico">
+    <link href="~/css/oa/FeiYongBX.css" rel="stylesheet" />
+    <link href="~/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="~/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="~/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="~/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="~/css/animate.min.css" rel="stylesheet">
+    <link href="~/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="~/js/plugins/layer/layui-v2.5.5/layui/css/layui.css" rel="stylesheet" />
+
+    <link href="~/js/plugins/NZ-Plugin/Css/NZ-Loading.min.css" rel="stylesheet" />
+    <link href="~/js/plugins/syntaxhighlighter_3.0.83/styles/shCoreRDark.css" rel="stylesheet" />
+    <link href="~/css/plugins/NZ-Plugin/displaystyle.css" rel="stylesheet" />
+    <link href="~/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/rangeslider/rangeslider.css">
+    <link href="~/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="~/css/imedstic.css" rel="stylesheet" />
+
+    <link href="~/css/select/select.css" rel="stylesheet" />
+    <link href="~/css/plugins/switchery/switchery.css" rel="stylesheet" />
+    <link href="~/css/chosen/chosen.min.css" rel="stylesheet" />
+
+    <link href="~/css/step/step.css" rel="stylesheet" />
+</head>
+<body>
+    @*<div class="demo1 float-e-margins">
+            <div class="ibox-title" style="height:63px" id="ibsearch">
+                <div class="col-sm-2">
+                    <button class='btn btn-w-m btn-success' onclick='' type='button'>保存</button>
+                </div>
+                <div class="fa-hover col-sm-1" style="text-align:right;padding-top:7px;width:20%">
+                    <a onclick="showslider('')"><i class="fa fa-plus"></i>新建报销</a>
+                </div>
+            </div>
+        </div>*@
+    <div class="demo float-e-margins">
+        <div class="ibox">
+            <div class="ibox-title" style="padding:6px 15px 6px" id="ibox-title">
+                @*<div class="col-sm-2" style="text-align:left;width:10%">
+                        <button class='btn btn-w-m btn-success' onclick="getRow()" type='button'>选择</button>
+                    </div>*@
+                <div class="col-sm-2" style="width:25%">
+                    <input type="text" placeholder="单据编号、合同编号、商机编号、项目名……" class="form-control" v-model="keywords">
+                </div>
+                <div class="col-sm-1" style="width:15%">
+                    <select class="form-control m-b" name="account" v-model="step">
+                        <option value="0">所有进度</option>
+                        <option value="1">发起申请</option>
+                        <option value="2">审批中</option>
+                        <option value="3">审批完成</option>
+                    </select>
+                </div>
+                <div class="col-sm-2" style="text-align:left;width:10%">
+                    <button class='btn btn-w-m btn-success' onclick='refreshTable()' type='button'>查询</button>
+                </div>
+                <div class="fa-hover col-sm-8" style="text-align:right;padding-top:7px;width:50%">
+                    <a onclick="showslider('');destoryMingXi()" style="color:#1c84c6"><i class="fa fa-plus"></i>新建报销</a>
+                </div>
+            </div>
+            <div class="table-box">
+                <table id="table1"></table>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    @*报销单右侧滑出层*@
+    <div class="wrap" id="baoxiaodan" style="overflow-y:auto">
+        <div class="layer-right" style="top:50px">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <div class="tabs-container">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a data-toggle="tab" href="#tab-1" aria-expanded="true">报销信息</a>
+                            </li>
+                            <li class="">
+                                <a data-toggle="tab" href="#tab-2" aria-expanded="false">审批进度</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" style="height:550px">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="panel-body">
+
+                                    <div class="form-group" style="margin-bottom:55px;">
+                                        <label class="col-sm-2 control-label" style="width:11%;margin-top: 7px;text-align:right"><span style="color:red">*</span>单据编号</label>
+                                        <div class="col-sm-4" style="width:22.33%">
+                                            <input type="text" id="bxdcode" class="form-control" v-model="code" disabled="disabled">
+                                        </div>
+
+                                        <label class="col-sm-2 control-label" style="width:11%;margin-top: 7px;text-align:right"><span style="color:red">*</span>客户名称</label>
+                                        <div class="col-sm-4" style="width:22.33%">
+                                            @*<input type="text" class="form-control" v-model="customer" v-bind:disabled="isshow">*@
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="customer">
+                                                <div class="input-group-btn">
+                                                    <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
+                                                        <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                                                </div>
+                                                <!-- /btn-group -->
+                                            </div>
+                                        </div>
+
+                                        <label class="col-sm-2 control-label" style="width:11%;margin-top: 7px;text-align:right"><span style="color:red">*</span>归属部门</label>
+                                        <div class="col-sm-4" style="width:22.33%">
+                                            <select class="form-control m-b" autocomplete="off" v-model="department" v-bind:disabled="isshow">
+                                                <option value="研发部">研发部</option>
+                                                <option value="产品部">产品部</option>
+                                                <option value="实施部">实施部</option>
+                                                <option value="人事部">人事部</option>
+                                            </select>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group" style="margin-bottom:55px;">
+                                        <label class="col-sm-2 control-label" style="width:11%;margin-top: 7px;text-align:right"><span style="color:red">*</span>报销类型</label>
+                                        <div class="col-sm-4" style="width:22.33%">
+                                            <label><input type="radio" id="contract" name="type" class="ui-radio" style="margin-left:20px;margin-top: 7px;" v-model="type" value="1" v-bind:disabled="isshow" />合同</label>
+                                            <label><input type="radio" id="chance" name="type" class="ui-radio" style="margin-left:20px;margin-top: 7px;" v-model="type" value="2" v-bind:disabled="isshow" />商机</label>
+                                            <label><input type="radio" id="projectname" name="type" class="ui-radio" style="margin-left:20px;margin-top: 7px;" v-model="type" value="3" v-bind:disabled="isshow" />其他</label>
+                                        </div>
+
+                                        <label class="col-sm-2 control-label" style="width:11%;margin-top: 7px;text-align:right"><span style="color:red">*</span>申请时间</label>
+                                        <div class="col-sm-4" style="width:22.33%">
+                                            <input type="text" id="recordtime" class="timer form-control" v-model="recordtime" v-bind:disabled="isshow">
+                                        </div>
+
+                                        <label class="col-sm-2 control-label" style="width:11%;margin-top: 7px;text-align:right">申请人</label>
+                                        <div class="col-sm-4" style="width:22.33%">
+                                            <input type="text" class="form-control" v-model="applicant" v-bind:disabled="isshow" readonly="readonly">
+                                        </div>
+
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group" style="margin-bottom:55px;">
+                                        <label class="col-sm-2 control-label" style="width:11%;margin-top: 7px;text-align:right" v-show="showRadio1"><span style="color:red">*</span>合同名称</label>
+                                        <div class="col-sm-4" style="width:22.33%" v-show="showRadio1">
+                                            @*<input type="text" class="form-control" v-model="contract" v-bind:disabled="isshow" onblur="getBytpcode()">*@
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="data-contract" v-bind:disabled="isshow" onblur="getBytpcode()">
+                                                <div class="input-group-btn">
+                                                    <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
+                                                        <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                                                </div>
+                                                <!-- /btn-group -->
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-2 control-label" style="width:11%;margin-top: 7px;text-align:right" v-show="showRadio2"><span style="color:red">*</span>商机名称</label>
+                                        <div class="col-sm-4" style="width:22.33%" v-show="showRadio2">
+                                            @*<input type="text" class="form-control" v-model="chance" v-bind:disabled="isshow" onblur="getBytpcode()">*@
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="data-chance" onblur="getBytpcode()">
+                                                <div class="input-group-btn">
+                                                    <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown" v-bind:disabled="isshow">
+                                                        <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-2 control-label" style="width:11%;margin-top: 7px;text-align:right" v-show="showRadio3"><span style="color:red">*</span>项目名称</label>
+                                        <div class="col-sm-4" style="width:22.33%" v-show="showRadio3">
+                                            <input type="text" class="form-control" v-model="projectname" v-bind:disabled="isshow" onblur="getBytpcode()">
+                                            @*<div class="input-group">
+                                                    <input type="text" class="form-control" id="data-proj" v-model="projectname" onblur="getBytpcode()">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown" v-bind:disabled="isshow">
+                                                            <span class="caret"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-right" role="menu"></ul>
+                                                    </div>
+                                                </div>*@
+                                        </div>
+
+                                        <label class="col-sm-2 control-label" style="width:11%;margin-top: 7px;text-align:right">事由</label>
+                                        <div class="col-sm-8" style="width:55.6%">
+                                            <input type="text" class="form-control" v-model="reason" v-bind:disabled="isshow">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group" style="margin-bottom:55px;">
+                                        <label class="col-sm-2 control-label" style="width:11%;margin-top: 7px;text-align:right" v-show="showRadio1">合同金额</label>
+                                        <div class="col-sm-4" style="width:22.33%" v-show="showRadio1">
+                                            <input type="text" class="form-control" v-model="amount" disabled="disabled">
+                                        </div>
+                                        <label class="col-sm-2 control-label" style="width:11%;margin-top: 7px;text-align:right" v-show="showRadio2">项目预算</label>
+                                        <div class="col-sm-4" style="width:22.33%" v-show="showRadio2">
+                                            <input type="text" class="form-control" v-model="budget" disabled="disabled">
+                                        </div>
+
+                                        <label class="col-sm-2 control-label" style="width:11%;margin-top: 7px;text-align:right">报销总额</label>
+                                        <div class="col-sm-4" style="width:22.33%">
+                                            <input type="text" class="form-control" v-model="total" disabled="disabled">
+                                        </div>
+
+                                        <label class="col-sm-2 control-label" style="width:11%;margin-top: 7px;text-align:right">已发生金额</label>
+                                        <div class="col-sm-4" style="width:22.33%">
+                                            <input type="text" class="form-control" v-model="consume" disabled="disabled">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    @*报销明细表*@
+                                    <div class="demo animated fadeInRight">
+                                        <!-- Panel Other -->
+                                        <div class="ibox float-e-margins">
+                                            <div class="ibox-title">
+                                                <div class="col-sm-2" style="width:20%;padding-left:10px">
+                                                    费用报销明细
+                                                </div>
+                                                <div class="fa-hover col-sm-10" style="text-align:right;width:78%">
+                                                    <a data-toggle="modal" id="addmingxi" onclick="showAddMingXi()" style="color:#1c84c6"><i class="fa fa-plus"></i>新增报销明细</a>
+                                                </div>
+                                            </div>
+                                            <div class="hr-line-dashed"></div>
+                                            <div class="table-box">
+                                                <table id="table"></table>
+                                            </div>
+                                        </div>
+                                        <!-- End Panel Other -->
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group" style="padding-top:10px">
+                                        <div class="col-sm-12" style="text-align:right">
+                                            <button type="button" class="btn btn-white" onclick="hidenslider()">关闭</button>
+                                            <button type="button" class="btn btn-primary" v-on:click="Edit()" style="margin-right:20px" v-if="isshow">编辑</button>
+                                            <button type="button" id="submit" class="btn btn-primary" v-on:click="Add()" style="margin-right:20px" v-if="!isshow">保存</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="tab-2" class="tab-pane">
+                                <div class="panel-body">
+                                    <div class="lc-case lc-case-sj">
+                                        <ul>
+                                            <li v-bind:class="[complete1?'liucheng-complete':'',current1?'liucheng-current':'',liuchengnot1?'liucheng-not':'']">
+                                                <div class="liucheng">
+                                                    <div class="lc-type" v-if="current1">当前</div>
+                                                    <div class="lc-type" v-else></div>
+                                                    <p class="t-border t-14">发起申请</p>
+                                                </div>
+                                                <div class="liucheng-line-right"></div>
+
+                                            </li>
+                                            <li v-bind:class="[complete2?'liucheng-complete':'',current2?'liucheng-current':'',liuchengnot2?'liucheng-not':'']">
+                                                <div class="liucheng-line-left"></div>
+                                                <div class="liucheng">
+                                                    <div class="lc-type" v-if="current2">当前</div>
+                                                    <div class="lc-type" v-else></div>
+                                                    <p class="t-border t-14">审批中</p>
+                                                </div>
+                                                <div class="liucheng-line-right"></div>
+
+                                            </li>
+                                            <li v-bind:class="[complete3?'liucheng-complete':'',current3?'liucheng-current':'',liuchengnot3?'liucheng-not':'']">
+                                                <div class="liucheng-line-left"></div>
+                                                <div class="liucheng">
+                                                    <div class="lc-type" v-if="current3">当前</div>
+                                                    <div class="lc-type" v-else></div>
+                                                    <p class="t-border t-14">审批完成</p>
+                                                </div>
+                                                <div class="liucheng-line-right"></div>
+
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                    <div class="ibox-content timeline" style="overflow-y:auto;height:370px">
+                                        暂无数据
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    @*新增报销明细*@
+    <div class="modal inmodal" id="AddBaoXiaoMX" tabindex="-1" role="dialog" aria-hidden="true" style="width:100%">
+        <div class="modal-dialog" style="width:990px">
+            <div class="modal-content animated fadeIn">
+                <div class="modal-header" style="padding:5px">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">报销明细</h4>
+                </div>
+                <div class="modal-body  form-horizontal">
+                    <div class="box">
+                        <form action="" method="post" id="mingxi">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" style="width:15%"><span style="color:red">*</span>单据编号</label>
+                                <div class="col-sm-3" style="width:30%">
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input" name="code" id="code" type="text" placeholder="" style="height:30px" v-model="code" readonly="readonly">
+                                    </div>
+                                </div>
+                                <label class="col-sm-3 control-label" style="width:15%"><span style="color:red">*</span>报销日期</label>
+                                <div class="col-sm-3" style="width:30%">
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input" name="expensetime" id="expensetime" type="text" placeholder="" style="height:30px" v-model="expensetime" v-bind:disabled="isshow">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" style="width:15%"><span style="color:red">*</span>费用类型</label>
+                                <div class="col-sm-3" style="width:30%">
+                                    <select class="form-control" name="costtype" v-model="costtype" v-bind:disabled="isshow">
+                                        <option value="办公费用">办公费用</option>
+                                        <option value="交通费用">交通费用</option>
+                                        <option value="通讯费用">通讯费用</option>
+                                        <option value="差旅费用">差旅费用</option>
+                                        <option value="研发费用">研发费用</option>
+                                    </select>
+                                </div>
+                                <label class="col-sm-3 control-label" style="width:15%"><span style="color:red">*</span>报销金额</label>
+                                <div class="col-sm-3" style="width:30%">
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input" name="amount" type="text" placeholder="请输入数字" style="height:30px" v-model="amount" v-bind:disabled="isshow" oninput="value=value.replace(/[^\d]/g,'')">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" style="width:15%">单据张数</label>
+                                <div class="col-sm-3" style="width:30%">
+                                    <div class="layui-input-inline">
+                                        <input class="layui-input" name="docunm" type="text" placeholder="请输入数字" style="height:30px" v-model="docunm" v-bind:disabled="isshow" oninput="value=value.replace(/[^\d]/g,'')">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" style="width:15%">备注信息</label>
+                                <div class="col-sm-10" style="width:85%">
+                                    <textarea id="note" name="note" rows="3" cols="20" style="width:95%" v-model="note" v-bind:disabled="isshow"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:1px">
+                                <div class="col-sm-12" style="text-align:right">
+                                    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                                    <button type="button" class="btn btn-primary" v-on:click="Submit()" style="margin-right:20px" v-if="!isshow">保存</button>
+                                    <button type="button" class="btn btn-primary" v-on:click="Edit()" style="margin-right:20px" v-if="isshow">编辑</button>
+                                </div>
+                            </div>
+                            <input type="hidden" name="jiluid" value="" disabled="disabled" />
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/jquery.min.js?v=2.1.4"></script>
+    <script src="~/js/vue/vue.js"></script>
+
+    <script src="~/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="~/js/content.min.js?v=1.0.0"></script>
+    <script src="~/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="~/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+    <script src="~/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script src="~/js/demo/bootstrap-table-demo.min.js"></script>
+    <script src="~/js/content.min.js?v=1.0.0"></script>
+    <script src="~/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="~/js/plugins/layer/layui-v2.5.5/layui/layui.js"></script>
+    <script src="~/js/cookie.js"></script>
+    @*加载中*@
+    <script src="~/js/plugins/NZ-Plugin/Js/NZ-Loading.min.js"></script>
+    <script src="~/js/plugins/syntaxhighlighter_3.0.83/shCore.js"></script>
+    <script src="~/js/plugins/syntaxhighlighter_3.0.83/shBrushJScript.js"></script>
+    @*進度條*@
+    <script src="~/js/rangeslider/rangeslider.min.js"></script>
+    @*select 搜索框*@
+    <script src="~/js/plugins/suggest/bootstrap-suggest.min.js"></script>
+    @*滑出界面*@
+    <script src="~/js/mSlider/mSlider.min.js"></script>
+    <script src="~/js/select/select2.js"></script>
+    <script src="~/js/plugins/switchery/switchery.js"></script>
+    <script src="~/js/chosen/chosen.jquery.js"></script>
+    <script src="~/js/oa/FeiYongBX.js"></script>
+    <script src="~/js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="~/js/axios/axios.min.js"></script>
+    @*步骤*@
+    <script src="~/js/step/step.js"></script>
+    <script src="~/js/vue/vue.js"></script>
+
+
+</body>
+</html>
