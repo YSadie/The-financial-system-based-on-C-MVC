@@ -1,0 +1,21 @@
+﻿body {
+}
+.table-box {
+         margin-top: 10px;
+       }
+
+.ibox-title {
+         position: fixed;
+         top: 0px;
+         left: 0px;
+         bottom: 0px;
+         width: 100%;
+         height: 50px;
+         z-index: 999;
+     }
+.ibox .table-box{
+    width:13%;
+    margin-left:5%;
+    display:inline-block;
+    margin-top:0%;
+}

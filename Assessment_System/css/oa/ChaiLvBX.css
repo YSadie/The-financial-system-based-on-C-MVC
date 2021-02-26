@@ -1,0 +1,42 @@
+﻿body {
+}
+.table-box {
+         margin-top: 30px;
+       }
+
+.ibox-title {
+         position: fixed;
+         top: 0px;
+         left: 0px;
+         bottom: 0px;
+         width: 100%;
+         height: 50px;
+         z-index: 999;
+     }
+ .tab-content{
+     overflow-y:auto;
+ }
+ .modal-body .layui-input-inline{
+    display:block;
+}
+ .mSlider-inner{
+     margin-top:49px !important;
+ }
+ #province5{
+     width:150px;
+ }
+ #city5{
+     width:140px;
+ }
+ #district5{
+     width:140px;
+ }
+  #province4{
+     width:150px;
+ }
+ #city4{
+     width:140px;
+ }
+ #district4{
+     width:140px;
+ }
